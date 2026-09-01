@@ -33,4 +33,12 @@ public class UnidadVentaABM {
 	public List<UnidadVenta> traer() {
 		return dao.traer();
 	}
+
+	/**
+	 * Caso de Uso ejemplo (Herencia + Uno a Muchos): FoodTrucks de un festival
+	 * con la cantidad de platos que ofrece cada uno.
+	 */
+	public List<UnidadVenta> traerFoodTrucksDeFestival(long idFestival) {
+		return dao.traerFoodTrucksDeFestival(idFestival);
+	}
 }

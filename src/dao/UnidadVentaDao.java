@@ -60,4 +60,26 @@ public class UnidadVentaDao {
 		}
 		return lista;
 	}
+
+	/**
+	 * Caso de Uso ejemplo: FoodTrucks de un festival junto con la cantidad de
+	 * platos que ofrece cada uno. Combina Herencia (FoodTruck) + Uno a Muchos
+	 * (UnidadVenta -> Plato).
+	 */
+	public List<UnidadVenta> traerFoodTrucksDeFestival(long idFestival) {
+		List<UnidadVenta> lista = null;
+		try {
+			iniciaOperacion();
+			String hql = "select distinct ft from FoodTruck ft "
+					+ "left join fetch ft.platos "
+					+ "where ft.festival.idFestival = :idFestival "
+					+ "order by ft.nombre asc";
+			Query<UnidadVenta> query = session.createQuery(hql, UnidadVenta.class);
+			query.setParameter("idFestival", idFestival);
+			lista = query.getResultList();
+		} finally {
+			session.close();
+		}
+		return lista;
+	}
 }

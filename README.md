@@ -40,22 +40,17 @@ Guía pensada para alguien que nunca tocó este repo. Seguí los pasos en orden.
 
 ### 1) Clonar el repositorio
 
+Abrí una terminal (Git Bash, símbolo del sistema o PowerShell), ubicate con `cd` en la carpeta donde querés que quede el proyecto (por ejemplo `cd Documents`), y ahí corré:
+
 ```bash
 git clone https://github.com/JuanAvalle77/TPGrupalOO2Grupo10.git
 ```
 
-O desde GitHub: botón verde **Code → Download ZIP** y descomprimirlo en alguna carpeta.
+Esto crea una carpeta nueva `TPGrupalOO2Grupo10` con el proyecto adentro.
 
-### 2) Verificar que MySQL esté corriendo
+O desde GitHub, sin usar Git por consola: botón verde **Code → Download ZIP** y descomprimirlo en alguna carpeta.
 
-1. `Win + R` → escribí `services.msc` → Enter.
-2. Buscá el servicio **MySQL80** (el nombre puede variar según tu instalación).
-3. Si no dice "En ejecución", clic derecho → **Iniciar**.
-4. Tip para no tener que repetir esto cada vez: clic derecho → **Propiedades** → pestaña **General** → "Tipo de inicio" → cambiar de **Manual** a **Automático** → Aplicar. Así MySQL arranca solo con Windows.
-
-Si no te acordás la contraseña de `root` de tu MySQL local, abrí **MySQL Installer** (buscalo en el menú de inicio) → tu MySQL Server → botón **Reconfigure** → seguí el wizard hasta la pantalla de contraseña y ponele una nueva.
-
-### 3) Crear la base de datos
+### 2) Crear la base de datos
 
 Abrí **MySQL Workbench**, conectate a tu instancia local (doble clic en la conexión, te va a pedir la contraseña de `root`), abrí una pestaña de **Query** y ejecutá (ícono del rayo ⚡ o `Ctrl+Enter`):
 
@@ -67,7 +62,7 @@ CREATE DATABASE epicentro_gourmet
 
 No hace falta crear tablas a mano — Hibernate las crea solo la primera vez que corras el proyecto.
 
-### 4) Importar el proyecto en Eclipse
+### 3) Importar el proyecto en Eclipse
 
 1. Abrí Eclipse (elegí cualquier carpeta como workspace si te lo pide).
 2. Menú **File → Open Projects from File System...**
@@ -75,7 +70,7 @@ No hace falta crear tablas a mano — Hibernate las crea solo la primera vez que
 4. Debería aparecer el proyecto `TpGrupo10` tildado en la lista → **Finish**.
 5. Esperá que Eclipse termine de indexar/compilar (mirá que no queden procesos corriendo en la barra de estado, abajo a la derecha).
 
-### 5) Configurar la conexión a la base (`hibernate.cfg.xml`)
+### 4) Configurar la conexión a la base (`hibernate.cfg.xml`)
 
 Este archivo tiene tu contraseña de MySQL, por eso **no está en el repo** (cada uno tiene la suya). Hay que crearlo a partir de una plantilla:
 
@@ -85,7 +80,7 @@ Este archivo tiene tu contraseña de MySQL, por eso **no está en el repo** (cad
 4. Abrilo y reemplazá el texto `TU_PASSWORD_ACA` (línea `<property name="connection.password">...</property>`) por tu contraseña real de MySQL.
 5. Guardá con `Ctrl+S`.
 
-### 6) Chequear las librerías (Classpath vs Modulepath) — importante
+### 5) Chequear las librerías (Classpath vs Modulepath) — importante
 
 Este es el paso que más rompe las bolas si se salta. Java moderno (9+) separa las dependencias en dos "carriles": **Modulepath** y **Classpath**. Los jars de Hibernate que usamos son viejos y tienen que ir sí o sí en **Classpath**, o vas a tener un error `NoClassDefFoundError` relacionado a `byte-buddy` apenas arranque Hibernate.
 
@@ -97,16 +92,16 @@ Como el archivo `.classpath` del proyecto ya viene configurado bien en el repo, 
 4. Si ves los 19 jars bajo **Modulepath** en lugar de Classpath: seleccionalos todos (clic en el primero, `Shift+clic` en el último), **Remove**, hacer clic en el nodo **Classpath** para seleccionarlo, y **Add JARs...** → navegar a `TpGrupo10/lib` → seleccionar los 19 archivos `.jar` → OK.
 5. **Apply and Close**.
 
-### 7) Primera corrida: crear tablas y cargar datos de prueba
+### 6) Primera corrida: crear tablas y cargar datos de prueba
 
 1. En el Package Explorer, abrí `src/test/TestCargarDatosPrueba.java`.
 2. Clic derecho → **Run As → Java Application**.
-3. Mirá la consola: vas a ver mucho texto en rojo (es normal, ver la sección de Troubleshooting más abajo) y al final líneas tipo `Festival creado, id=1`, `Cocinero creado, id=1`, etc. sin ninguna `Exception`.
+3. Mirá la consola: vas a ver mucho texto en rojo (es normal, es el logging de Hibernate, no un error) y al final líneas tipo `Festival creado, id=1`, `Cocinero creado, id=1`, etc. sin ninguna `Exception`.
 4. Confirmá en MySQL Workbench (Schemas → `epicentro_gourmet` → clic derecho → Refresh All) que aparecieron las tablas.
 
 **Corré esta clase UNA SOLA VEZ.** Si la corrés de nuevo va a fallar por datos duplicados (DNI/código únicos) — es esperado, no arreglar nada, simplemente no la vuelvas a correr. Si necesitás datos frescos, mirá "Reiniciar la base" más abajo.
 
-### 8) Correr un caso de uso
+### 7) Correr un caso de uso
 
 Cualquier otra clase dentro de `src/test/` (por ejemplo `TestCasoDeUsoFoodTrucks.java`) se corre igual: clic derecho → **Run As → Java Application**. Esas sí las podés correr las veces que quieras, son solo lectura.
 
@@ -119,15 +114,7 @@ Cualquier otra clase dentro de `src/test/` (por ejemplo `TestCasoDeUsoFoodTrucks
 5. Actualizá la tabla de Casos de Uso en este README con tu nombre y el estado.
 6. Commiteá y pusheá **tu propio commit** (no lo mezcles con cambios de otra parte del proyecto), para que se vea claramente tu aporte en el historial.
 
-## Troubleshooting
-
-- **Veo mucho texto en rojo en la consola, ¿está todo mal?** No. Hibernate usa `java.util.logging` por defecto (no hay Log4j/SLF4J configurado), y ese logger manda hasta los mensajes `INFO` a la salida de error, que Eclipse pinta de rojo. Un error real se distingue porque dice explícitamente `ERROR:`, `Exception in thread`, o trae un stack trace largo.
-- **`NoClassDefFoundError` con `byte-buddy` al correr cualquier test:** ver el paso 6 (Modulepath vs Classpath).
-- **`Communications link failure` / `Unable to create requested service [JdbcEnvironment]`:** MySQL no está corriendo. Ver paso 2.
-- **`Duplicate entry '...' for key '...'`:** intentaste insertar un dato que ya existe (DNI, código de unidad, etc.). Si pasó corriendo `TestCargarDatosPrueba` de nuevo, es esperado — no lo vuelvas a correr sobre la misma base.
-- **`NullPointerException: ... session is null` sin más contexto:** es un síntoma que tapa el error real (nuestro `HibernateUtil`/Dao usan el estilo de la cátedra que no muestra bien la excepción original en algunos casos). Si te pasa y no entendés por qué, avisen en el grupo — generalmente es Modulepath/Classpath o MySQL apagado.
-
-### Reiniciar la base desde cero
+## Reiniciar la base desde cero
 
 Si en algún momento querés borrar todo y volver a probar desde el principio, en MySQL Workbench:
 

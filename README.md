@@ -8,8 +8,8 @@ Trabajo práctico grupal de la materia Orientación a Objetos II (UNLa) - Hito 1
 
 | Nombre y Apellido | Usuario GitHub |
 |---|---|
-| _completar_ | _completar_ |
-| _completar_ | _completar_ |
+| Juan Ignacio Avalle | JuanAvalle77 |
+| Santiago Agarzúa | SantiagoCode06 |
 | _completar_ | _completar_ |
 | _completar_ | _completar_ |
 

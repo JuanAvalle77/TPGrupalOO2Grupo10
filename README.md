@@ -10,7 +10,7 @@ Trabajo práctico grupal de la materia Orientación a Objetos II (UNLa) - Hito 1
 |---|---|
 | Juan Ignacio Avalle | JuanAvalle77 |
 | Santiago Agarzúa | SantiagoCode06 |
-| _completar_ | _completar_ |
+| Franco Joaquín Luzardo | FJLuzardo |
 | _completar_ | _completar_ |
 
 ## Casos de Uso (Hito 1)

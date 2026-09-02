@@ -42,8 +42,13 @@ public class UnidadVentaABM {
 		return dao.traerFoodTrucksDeFestival(idFestival);
 	}
 	
-	public List<UnidadVenta> traerPuestosDesarmablesDeFestival(long idFestival){
-		return dao.traerPuestosDesarmableDeFestival(idFestival);
+	/**
+	 * Caso de Uso: Puestos Desarmables de un festival junto con la cantidad de
+	 * platos que ofrece cada uno (Herencia: PuestoDesarmable · Uno a Muchos:
+	 * Festival -> UnidadVenta).
+	 */
+	public List<UnidadVenta> traerPuestosDesarmablesDeFestival(long idFestival) {
+		return dao.traerPuestosDesarmablesDeFestival(idFestival);
 	}
 
 	public double superficieTotal(List<UnidadVenta> puestos) {

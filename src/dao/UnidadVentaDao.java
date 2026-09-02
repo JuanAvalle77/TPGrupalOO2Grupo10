@@ -82,19 +82,24 @@ public class UnidadVentaDao {
 		}
 		return lista;
 	}
-	public List<UnidadVenta> traerPuestosDesarmableDeFestival(long idFestival){
+	/**
+	 * Caso de Uso: Puestos Desarmables de un festival junto con la cantidad de
+	 * platos que ofrece cada uno. Combina Herencia (PuestoDesarmable) + Uno a
+	 * Muchos (Festival -> UnidadVenta).
+	 */
+	public List<UnidadVenta> traerPuestosDesarmablesDeFestival(long idFestival) {
 		List<UnidadVenta> lista = null;
 		try {
 			iniciaOperacion();
 			String hql = "select distinct pd from PuestoDesarmable pd "
-	                	+ "left join fetch pd.platos "
-	                	+ "where pd.festival.idFestival = :idFestival "
-	                	+ "order by pd.nombre asc";
-	        Query<UnidadVenta> query = session.createQuery(hql, UnidadVenta.class);
-	        query.setParameter("idFestival", idFestival);
-	        lista = query.getResultList();
+					+ "left join fetch pd.platos "
+					+ "where pd.festival.idFestival = :idFestival "
+					+ "order by pd.nombre asc";
+			Query<UnidadVenta> query = session.createQuery(hql, UnidadVenta.class);
+			query.setParameter("idFestival", idFestival);
+			lista = query.getResultList();
 		} finally {
-			session.close();;
+			session.close();
 		}
 		return lista;
 	}

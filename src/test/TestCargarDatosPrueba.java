@@ -27,14 +27,14 @@ public class TestCargarDatosPrueba {
 				LocalDate.of(2026, 9, 1), LocalDate.of(2026, 9, 5));
 		System.out.printf("Festival creado, id=%d%n", idFestival);
 
-		long idCocinero = personalAbm.agregarCocinero("Juan", "Perez", 30111222, LocalDate.of(1990, 5, 10),
+		long idCocinero = personalAbm.agregarCocinero("Juan", "Perez", 31111222, LocalDate.of(1990, 5, 10),
 				LocalDate.of(2024, 1, 15), 500000, "juan@mail.com", "Parrilla", 50000);
 		System.out.printf("Cocinero creado, id=%d%n", idCocinero);
 
 		Festival festival = festivalAbm.traer(idFestival);
 		Personal responsable = personalAbm.traer(idCocinero);
 
-		long idFoodTruck = unidadVentaAbm.agregarFoodTruck("El Fueguito", 15.5f, "FT00000001", festival, responsable,
+		long idFoodTruck = unidadVentaAbm.agregarFoodTruck("El Fueguito", 15.5f, "FT00100001", festival, responsable,
 				true, "AA123BB");
 		System.out.printf("FoodTruck creado, id=%d%n", idFoodTruck);
 		

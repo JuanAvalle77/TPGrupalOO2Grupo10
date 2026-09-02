@@ -41,4 +41,17 @@ public class UnidadVentaABM {
 	public List<UnidadVenta> traerFoodTrucksDeFestival(long idFestival) {
 		return dao.traerFoodTrucksDeFestival(idFestival);
 	}
+	
+	public List<UnidadVenta> traerPuestosDesarmablesDeFestival(long idFestival){
+		return dao.traerPuestosDesarmableDeFestival(idFestival);
+	}
+
+	public double superficieTotal(List<UnidadVenta> puestos) {
+		double acumulador = 0;
+		for (UnidadVenta u : puestos) {
+	        PuestoDesarmable pd = (PuestoDesarmable) u;
+	        acumulador += pd.getSuperficie();
+	    }
+		return acumulador;
+	}
 }

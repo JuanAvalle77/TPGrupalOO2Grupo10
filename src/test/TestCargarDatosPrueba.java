@@ -37,7 +37,8 @@ public class TestCargarDatosPrueba {
 		long idFoodTruck = unidadVentaAbm.agregarFoodTruck("El Fueguito", 15.5f, "FT00000001", festival, responsable,
 				true, "AA123BB");
 		System.out.printf("FoodTruck creado, id=%d%n", idFoodTruck);
-
+		
+		
 		UnidadVenta foodTruck = unidadVentaAbm.traer(idFoodTruck);
 
 		long idChoripan = platoAbm.agregar("Choripán", 3500, 1500, foodTruck);

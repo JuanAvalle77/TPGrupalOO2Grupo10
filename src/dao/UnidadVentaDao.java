@@ -82,4 +82,20 @@ public class UnidadVentaDao {
 		}
 		return lista;
 	}
+	public List<UnidadVenta> traerPuestosDesarmableDeFestival(long idFestival){
+		List<UnidadVenta> lista = null;
+		try {
+			iniciaOperacion();
+			String hql = "select distinct pd from PuestoDesarmable pd "
+	                	+ "left join fetch pd.platos "
+	                	+ "where pd.festival.idFestival = :idFestival "
+	                	+ "order by pd.nombre asc";
+	        Query<UnidadVenta> query = session.createQuery(hql, UnidadVenta.class);
+	        query.setParameter("idFestival", idFestival);
+	        lista = query.getResultList();
+		} finally {
+			session.close();;
+		}
+		return lista;
+	}
 }

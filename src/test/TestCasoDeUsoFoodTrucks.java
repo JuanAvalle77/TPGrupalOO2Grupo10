@@ -1,6 +1,9 @@
 package test;
 
+import java.util.stream.Collectors;
+
 import datos.FoodTruck;
+import datos.Plato;
 import datos.UnidadVenta;
 import negocio.UnidadVentaABM;
 
@@ -21,8 +24,9 @@ public class TestCasoDeUsoFoodTrucks {
 		System.out.printf("FoodTrucks del festival id=%d%n", idFestival);
 		for (UnidadVenta u : abm.traerFoodTrucksDeFestival(idFestival)) {
 			FoodTruck ft = (FoodTruck) u;
-			System.out.printf("- %s (codigo=%s, patente=%s) -> %d platos%n", ft.getNombre(), ft.getCodigo(),
-					ft.getPatente(), ft.getPlatos().size());
+			String nombresPlatos = ft.getPlatos().stream().map(Plato::getNombre).collect(Collectors.joining(", "));
+			System.out.printf("- %s (codigo=%s, patente=%s) -> %d platos: %s%n", ft.getNombre(), ft.getCodigo(),
+					ft.getPatente(), ft.getPlatos().size(), nombresPlatos);
 		}
 	}
 }
